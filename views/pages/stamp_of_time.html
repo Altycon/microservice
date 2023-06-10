@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stamp of Time Microservice</title>
+    <link href="main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <header class="stamp_of_time_header">
+      <a href="/" class="home_link">HOME</a>
+        <h1>
+          <span class="stamp-h1">Stamp</span>&nbsp;of&nbsp;<span class="time-h1">Time</span>&nbsp;<br>Microservice</h1>
+      </header>
+      <main>
+        
+        <section class="how">
+          <header>
+            <h3>How do you use this service?</h3>
+          </header>
+          <p>Enter a date or unix timstamp in the address bar along side the URL.</p>
+          <p>Click links below to try service.&nbsp;&darr;</span></p>
+          <ul>
+            <li><a href="api/2015-12-25" target="_blank">www.sotms/api/2015-12-25</a><span class="pointing-hand">&#9756;</span></li>
+            <li><a href="api/1451001600000" target="_blank">www.sotms/api/1451001600000</a><span class="pointing-hand">&#9756;</span></li>
+          </ul>
+        </section>
+        <section class="output">
+          <article>
+            <header>
+              <h3>Example Output&nbsp;&darr;</h3>
+            </header>
+            <p>
+              <code>{"unix":1451001600000, "utc":"Fri, 25 Dec 2015 00:00:00 GMT"}</code>
+            </p>
+          </article>
+          <article>
+            <header>
+              <h3>Invalid Date&nbsp;&darr;</h3>
+            </header>
+            <p>
+              <code>{"unix":null, "utc":"Invalid Date"}</code>
+            </p>
+          </article>
+          <article>
+            <header>
+              <h3>Nothing provided to the 'api' endpoint.&nbsp;&darr;</h3>
+            </header>
+            <p>
+              <code>{"error": "No information provided for request"}</code>
+            </p>
+          </article>
+        </section>
+        <section class="what">
+          <header>
+            <h3>What is this service?</h3>
+            <p>This is a simple date api service for internet developers but anyone can use it if you find it useful!</p>
+            <p>By using the address bar or url, you can can recieve a few pieces of information about any date added to the url.</p>
+            <p>The data recieved will be in JSON format.</p>
+          </header>
+          <ul>
+            <li>* The Unix timestamp: The time in milliseconds since the Unix Epoch on January 1st, 1970.</li>
+            <li>* The Day of the week</li>
+            <li>* The date reformated to universal format.</li>
+            <li>* And a useless bit that shows the time...usually just 00:00:00.</li>
+          </ul>
+        </section>
+      </main>
+      <footer class="footer">
+        <p>Completed By: Clayton McDaniel</p>
+        <p>Challenge By: <a href="https://www.freecodecamp.org/">freeCodeCamp.org</a></p>
+      </footer>
+</body>
+</html>
