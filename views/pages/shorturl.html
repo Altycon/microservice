@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHORTURL || Clayton's Microservices</title>
+    <link href="main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <header class="shorturl_header">
+        <a href="/" class="home_link">HOME</a>
+        <h1>URL Shortner<br>Microservice</h1>
+    </header>
+    <main>
+        <section class="how">
+            <header>
+                <h3>How do you use this service?</h3>
+            </header>
+            <p>Enter a url into the input below</p>
+            <form action="/api/shorturl" method="post" class="shorturl_form">
+                <div>
+                    <label for="UrlInput">URL:&nbsp;</label>
+                    <input type="url" name="url" id="UrlInput" class="url_input" autocomplete="off">
+                </div>
+                <button type="submit" class="url-submit_btn">Create URL</button>
+            </form>
+            <p>This should shorten your url by removing the 'www'.</p>
+        </section>
+        <section class="what">
+            <article>
+                <header>
+                    <h3>Example link</h3>
+                </header>
+                <p>Click the link below to see to try an example.&nbsp;&darr;</span></p>
+                <p><a href="api/2015-12-25" target="_blank">http://www.clayton-microservices.herokuapp.com/api/www.google.com</a><span class="pointing-hand">&#9756;</span></p>
+            </article>
+            <article>
+                <header>
+                    <h3>Example Output</h3>
+                </header>
+                <p>http://google.com</p>
+            </article>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>Completed By: Clayton McDaniel</p>
+        <p>Challenge By: <a href="https://www.freecodecamp.org/">freeCodeCamp.org</a></p>
+      </footer>
+</body>
+</html>
