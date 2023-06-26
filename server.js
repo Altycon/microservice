@@ -82,20 +82,16 @@ app.get("/api/:property?", (request, response) => {
 app.get('/api/shorturl/:shortUrl?', async (request,response)=>{
     try{
         if(!request.params.shortUrl){
-            throw new Error('No shorturl provided in url');
+            response.json({ error: 'No url provided' });
         }
         const { shortUrl } = request.params;
 
         // make sure short url is a number
         if(isNaN(shortUrl)){
-            throw new Error('Invalid shorturl type');
+            response.json({ error: 'invalid url type' });
         }
-        console.log('shorturl-number', shortUrl);
         
-        // check database for existing short url number
-        // get original url associated with short url
         const existingUrl = await getExistingUrl(shortUrl);
-        console.log('existingUrl', existingUrl);
 
         // redirect user to original url
         if(existingUrl){
@@ -103,14 +99,14 @@ app.get('/api/shorturl/:shortUrl?', async (request,response)=>{
         }
     }catch(error){
         console.log(error);
-        response.json({ error: 'invalid shorturl' });
+        response.redirect('/shorturl');
     }
 });
 
 app.post('/api/shorturl', (request,response)=>{
     try{
         if(!request.body){
-            throw new Error('invalid url')
+            response.json({ error: 'invalid url' });
         }
         const body = request.body;
         body.url = body.url.trim();
@@ -123,15 +119,14 @@ app.post('/api/shorturl', (request,response)=>{
         if(requestedUrl.includes('://')){
             split = requestedUrl.split('://');
         }else{
-            throw new Error('invalid url');
+            response.json({ error: 'invalid url' });
         }
-        console.log('split', split);
 
         dns.resolve(split[1], 'A', (error,addresses)=>{
             if(error){
-               throw new Error('invalid url');
+                response.json({ error: 'invalid url' });
             }else{
-                addresses.forEach( address => console.log(address));
+                //addresses.forEach( address => console.log(address));
                 
                 // Here I need to save a model to mongo db
 
