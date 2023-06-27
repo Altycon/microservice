@@ -148,8 +148,11 @@ app.post('/api/shorturl', async (request,response)=>{
 app.post('/api/filestats', upload.single('upfile'), (request,response)=>{
     try{
         if(request.file){
-            const { originalname, mimetype, size } = request.file;
-            response.json({ name: originalname, type: mimetype, size: size });
+            //const { originalname, mimetype, size } = request.file;
+            const filename = request.file.originalname || undefined;
+            const mimetype = request.file.mimetype || undefined;
+            const size = request.file.size || undefined;
+            response.json({ name: filename, type: mimetype, size: size });
         }else{
             response.json({ error: 'No file uploaded' });
         }
