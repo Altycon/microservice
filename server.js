@@ -6,6 +6,7 @@ const dns = require('dns');
 
 //const ServiceUrl = require('./models/shorturl_model.js');
 const { 
+    generateShortUrl,
     createAndSaveShortUrl, 
     getExistingUrl 
 } = require('./controllers/url_controller.js');
@@ -103,51 +104,37 @@ app.get('/api/shorturl/:shortUrl?', async (request,response)=>{
     }
 });
 
-app.post('/api/shorturl', (request,response)=>{
+app.post('/api/shorturl', async (request,response)=>{
     try{
         if(!request.body){
             response.json({ error: 'invalid url' });
         }
-        const body = request.body;
-        body.url = body.url.trim();
+        
+        const { url } = request.body;
+        console.log('url', url);
+        const requestedUrl = new URL(url);
+        console.log('requestedUrl', requestedUrl);
+        const hostname = requestedUrl.hostname;
+        console.log('hostname', hostname);
 
-        const requestedUrl = body.url;
-
-        const shortUrl = Math.floor(Math.random()*1000);
-
-        let split;
-        if(requestedUrl.includes('://')){
-            split = requestedUrl.split('://');
-        }else{
-            response.json({ error: 'invalid url' });
-        }
-
-        dns.resolve(split[1], 'A', (error,addresses)=>{
-            if(error){
+        dns.resolve(hostname, 'A', async (error,addresses)=>{
+            if(error || !addresses){
+                console.log('Error resolving hostname', error);
                 response.json({ error: 'invalid url' });
             }else{
                 //addresses.forEach( address => console.log(address));
                 
-                // Here I need to save a model to mongo db
+                const shortUrl = await generateShortUrl();
 
-                createAndSaveShortUrl(requestedUrl, shortUrl);
-                // const SHORTURL = new ServiceUrl({
-                //     original_url: requestedUrl,
-                //     short_url: shortUrl
-                // });
+                await createAndSaveShortUrl(requestedUrl, shortUrl);
+               
 
-                // SHORTURL.save();
-
-                response.json({ original_url: requestedUrl, short_url: shortUrl});
+                response.json({ original_url: requestedUrl, short_url: shortUrl });
             }
         });
     }catch(error){
         response.json({ error: 'invalid url' });
     }
-   
-    
-    
-   
 })
 
 // listen for requests :)
