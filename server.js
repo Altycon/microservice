@@ -3,6 +3,8 @@ require('./config/database.js').connectDatabase();
 
 const express = require('express');
 const dns = require('dns');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/'})
 
 //const ServiceUrl = require('./models/shorturl_model.js');
 const { 
@@ -43,6 +45,12 @@ app.get('/whoami', (request, response) => {
 });
 app.get('/shorturl', (request, response) => {
     response.sendFile(__dirname + '/views/pages/shorturl.html');
+});
+app.get('/exercise_tracker', (request, response) => {
+    response.sendFile(__dirname + '/views/pages/exercise_tracker.html');
+});
+app.get('/file_metadata', (request, response) => {
+    response.sendFile(__dirname + '/views/pages/file_metadata.html');
 });
 
 // your first API endpoint... 
@@ -135,7 +143,19 @@ app.post('/api/shorturl', async (request,response)=>{
     }catch(error){
         response.json({ error: 'invalid url' });
     }
-})
+});
+
+app.post('/api/filestats', upload.single('upfile'), (request,response)=>{
+    try{
+        const { originalname, mimetype, size } = request.file;
+        console.log('name', originalname);
+        console.log('type', mimetype);
+        console.log('size', size);
+        response.json({ name: originalname, type: mimetype, size: size });
+    }catch(error){
+        response.json({ error: 'invalid file' });
+    } 
+});
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT || 3000, function () {

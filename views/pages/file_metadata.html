@@ -3,44 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHORTURL || Clayton's Microservices</title>
+    <title>FILE METADATA || Clayton's Microservices</title>
     <link href="main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <header class="shorturl_header">
+    <header class="file-metadata_header">
         <a href="/" class="home_link">HOME</a>
-        <h1>URL <span style="font-size: 20px; margin-right: 5px;">Short</span>ener<br>Microservice</h1>
+        <h1>File Metadata<br>Microservice</h1>
     </header>
     <main>
         <section class="how">
             <header>
                 <h3>How do you use this service?</h3>
             </header>
-            <p>Enter a url into the input below</p>
-            <form action="/api/shorturl" method="post" class="shorturl_form">
-                <div>
-                    <label for="UrlInput">URL:&nbsp;</label>
-                    <input type="url" name="url" id="UrlInput" class="url_input" autocomplete="off">
-                </div>
-                <button type="submit" class="url-submit_btn">Shorten URL</button>
+            <p>Select a file to be uploaded.</p>
+            <form action="/api/filestats" method="post" enctype="multipart/form-data" class="file-metadata_form">
+                <input type="file" name="upfile" id="FileUploadInput" autocomplete="off">
+                <button type="submit">Upload File</button>
             </form>
-            <p>Place your short url number in the address bar above like the example below.&nbsp;&darr;</p>
-            <p>https://clayton-microserives.herokuapp.com/api/shorturl/<u>4591</u><span class="pointing-hand">&#9756;</span></p>
+            <p>* No data is saved.</p>
         </section>
         <section class="what">
             <article>
                 <header>
                     <h3>What does this service do?</h3>
                 </header>
-                <p>This service will shorten your website address into a number between 0-10000.</p>
-                <p>That number can send you to that website without typing the whole thing! Yay!...???</p>
+                <p>This will extract the metadata of any file the you upload.</p>
+                <p>The metadata will include the name of the file, the type, and the size in bytes.</p>
+                <p>The data will be returned as JSON object once the file is uploaded.</p>
             </article>
             <article>
                 <header>
                     <h3>Example Output</h3>
                 </header>
                 <p>
-                    <code>{ "original_url":"https://www.archive.org", "short_url":4591 }</code>
+                    <code>{ "name":"some_file.txt", "type":"text/plain", size: 1714 }</code>
                 </p>
             </article>
         </section>

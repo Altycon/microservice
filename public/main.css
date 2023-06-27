@@ -92,6 +92,12 @@ main{
 	margin-bottom: 5px;
 	font-weight: 700;
 }
+.what > article{
+	margin-bottom: 1rem;
+}
+.what > article > header{
+	margin-bottom: 1rem;
+}
 code {
   font-family: monospace;
   font-size: .45rem;
@@ -127,6 +133,28 @@ code {
 	font-size: 1rem;
 }
 
+/*	File Metadata	*/
+.file-metadata_header > a{
+	margin-right: auto;
+}
+.file-metadata_header > h1{
+	margin-right: auto;
+}
+.file-metadata_header{
+	padding: 1rem;
+	display: flex;
+}
+.file-metadata_form > input{
+	font-size: .8rem;
+}
+.file-metadata_form > input::file-selector-button{
+	padding: 10px;
+	font-size: 1rem;
+}
+.file-metadata_form > button[type=submit]{
+	padding: 10px;
+	font-size: 1rem;
+}
 @media only screen and (min-width: 920px){
 	html{
 		font-size: 1.5rem;
