@@ -152,6 +152,7 @@ app.post('/api/filestats', upload.single('upfile'), (request,response)=>{
             const filename = request.file.originalname || undefined;
             const mimetype = request.file.mimetype || undefined;
             const size = request.file.size || undefined;
+            response.setHeader('Content-Type', 'application/json');
             response.json({ name: filename, type: mimetype, size: size });
         }else{
             response.json({ error: 'No file uploaded' });
