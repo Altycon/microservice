@@ -4,7 +4,13 @@ require('./config/database.js').connectDatabase();
 const express = require('express');
 const dns = require('dns');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/'})
+
+//const upload = multer({ dest: 'uploads/'})
+const storage = multer.diskStorage({
+    destination: (request,response,cb)=>{
+        cb(null, 'uploads/');
+    }
+})
 
 //const ServiceUrl = require('./models/shorturl_model.js');
 const { 
@@ -144,22 +150,33 @@ app.post('/api/shorturl', async (request,response)=>{
     }
 });
 
-app.post('/api/filestats', upload.single('upfile'), (request,response)=>{
+app.post('/api/filestats', (request,response)=>{
+    
     try{
-        if(request.file){
-            //const { originalname, mimetype, size } = request.file;
-            const filename = request.file.originalname || undefined;
-            const mimetype = request.file.mimetype || undefined;
-            const size = request.file.size || undefined;
-            response.setHeader('Content-Type', 'application/json');
-            response.json({ name: filename, type: mimetype, size: size });
-        }else{
-            response.setHeader('Content-Type', 'application/json');
-            response.json({ error: 'No file uploaded' });
-        }
+
+        const upload = multer({ storage: storage }).single('upfile');
+        upload(request,response, (error)=> {
+
+            if (request.fileValidationError) {
+                response.json({ error: request.fileValidationError });
+            }
+            else if (!request.file) {
+                response.json({ error: 'No file uploaded' });
+            }
+            else if (error instanceof multer.MulterError) {
+                response.json({ error: error });
+            }
+            else if (error) {
+                response.json({ error: error });
+            }
+        });
+        //const { originalname, mimetype, size } = request.file;
+        const filename = request.file.originalname || undefined;
+        const mimetype = request.file.mimetype || undefined;
+        const size = request.file.size || undefined;
         
+        response.json({ name: filename, type: mimetype, size: size });
     }catch(error){
-        response.setHeader('Content-Type', 'application/json');
         response.json({ error: 'invalid file' });
     } 
 });
