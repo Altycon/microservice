@@ -95,16 +95,16 @@ app.get('/api/shorturl/:shortUrl?', async (request,response)=>{
         }
         const { shortUrl } = request.params;
 
-        // make sure short url is a number
         if(isNaN(shortUrl)){
             response.json({ error: 'invalid url type' });
         }
         
         const existingUrl = await getExistingUrl(shortUrl);
 
-        // redirect user to original url
         if(existingUrl){
             response.redirect(existingUrl);
+        }else{
+            response.json({ error: 'url does not exist' });
         }
     }catch(error){
         console.log(error);
@@ -119,11 +119,11 @@ app.post('/api/shorturl', async (request,response)=>{
         }
         
         const { url } = request.body;
-        console.log('url', url);
+        
         const requestedUrl = new URL(url);
-        console.log('requestedUrl', requestedUrl);
+       
         const hostname = requestedUrl.hostname;
-        console.log('hostname', hostname);
+       
 
         dns.resolve(hostname, 'A', async (error,addresses)=>{
             if(error || !addresses){
@@ -136,7 +136,6 @@ app.post('/api/shorturl', async (request,response)=>{
 
                 await createAndSaveShortUrl(requestedUrl, shortUrl);
                
-
                 response.json({ original_url: requestedUrl, short_url: shortUrl });
             }
         });
@@ -155,10 +154,12 @@ app.post('/api/filestats', upload.single('upfile'), (request,response)=>{
             response.setHeader('Content-Type', 'application/json');
             response.json({ name: filename, type: mimetype, size: size });
         }else{
+            response.setHeader('Content-Type', 'application/json');
             response.json({ error: 'No file uploaded' });
         }
         
     }catch(error){
+        response.setHeader('Content-Type', 'application/json');
         response.json({ error: 'invalid file' });
     } 
 });
