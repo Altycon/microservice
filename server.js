@@ -33,8 +33,8 @@ app.get("/", (request, response) => {
  */
 
 // enabling the use of the body in forms
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 
 app.get('/stamp_of_time', (request, response) => {
     response.sendFile(__dirname + '/views/pages/stamp_of_time.html');
@@ -147,8 +147,8 @@ app.post('/api/filestats', upload.single('upfile'), (request,response)=>{
 
        
          //const { originalname, mimetype, size } = request.file;
-         const filename = "" + request.file.originalname;
-         const mimetype = "" + request.file.mimetype;
+         const filename = request.file.originalname;
+         const mimetype = request.file.mimetype;
          const size = request.file.size;
          
          response.json({ name: filename, type: mimetype, size: size });
