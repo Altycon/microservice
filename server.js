@@ -3,16 +3,9 @@ require('./config/database.js').connectDatabase();
 
 const express = require('express');
 const dns = require('dns');
-const multer = require('multer');
 
-//const upload = multer({ dest: 'uploads/'})
-const storage = multer.diskStorage({
-    destination: (request,response,cb)=>{
-        cb(null, 'uploads/');
-    }
-})
+const upload = require('./upload'); // may be ./upload.js...
 
-//const ServiceUrl = require('./models/shorturl_model.js');
 const { 
     generateShortUrl,
     createAndSaveShortUrl, 
@@ -51,9 +44,6 @@ app.get('/whoami', (request, response) => {
 });
 app.get('/shorturl', (request, response) => {
     response.sendFile(__dirname + '/views/pages/shorturl.html');
-});
-app.get('/exercise_tracker', (request, response) => {
-    response.sendFile(__dirname + '/views/pages/exercise_tracker.html');
 });
 app.get('/file_metadata', (request, response) => {
     response.sendFile(__dirname + '/views/pages/file_metadata.html');
@@ -150,32 +140,19 @@ app.post('/api/shorturl', async (request,response)=>{
     }
 });
 
-app.post('/api/filestats', (request,response)=>{
-    
+app.post('/api/filestats', upload.single('upfile'), (request,response)=>{
+    // try this
+    // https://www.freecodecamp.org/news/simplify-your-file-upload-process-in-express-js/
     try{
 
-        const upload = multer({ storage: storage }).single('upfile');
-        upload(request,response, (error)=> {
-
-            if (request.fileValidationError) {
-                response.json({ error: request.fileValidationError });
-            }
-            else if (!request.file) {
-                response.json({ error: 'No file uploaded' });
-            }
-            else if (error instanceof multer.MulterError) {
-                response.json({ error: error });
-            }
-            else if (error) {
-                response.json({ error: error });
-            }
-        });
-        //const { originalname, mimetype, size } = request.file;
-        const filename = request.file.originalname || undefined;
-        const mimetype = request.file.mimetype || undefined;
-        const size = request.file.size || undefined;
         
-        response.json({ name: filename, type: mimetype, size: size });
+         //const { originalname, mimetype, size } = request.file;
+         const filename = request.file.originalname || undefined;
+         const mimetype = request.file.mimetype || undefined;
+         const size = request.file.size || undefined;
+         
+         response.json({ name: filename, type: mimetype, size: size });
+        
     }catch(error){
         response.json({ error: 'invalid file' });
     } 
