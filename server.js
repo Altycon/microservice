@@ -33,8 +33,8 @@ app.get("/", (request, response) => {
  */
 
 // enabling the use of the body in forms
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.get('/stamp_of_time', (request, response) => {
     response.sendFile(__dirname + '/views/pages/stamp_of_time.html');
@@ -140,18 +140,17 @@ app.post('/api/shorturl', async (request,response)=>{
     }
 });
 
-app.post('/api/filestats', upload.single('upfile'), (request,response)=>{
-    // try this
-    // https://www.freecodecamp.org/news/simplify-your-file-upload-process-in-express-js/
+app.post('/api/filestats', upload.single('upfile'), async (request,response)=>{
+
     try{
 
-       
-         //const { originalname, mimetype, size } = request.file;
-         const filename = request.file.originalname;
-         const mimetype = request.file.mimetype;
-         const size = request.file.size;
-         
-         response.json({ name: filename, type: mimetype, size: size });
+         const file = request.file;
+
+         response.json({
+            name: file.originalname,
+            type: file.mimetype,
+            size: file.size
+         });
         
     }catch(error){
         response.json({ error: 'invalid file' });
