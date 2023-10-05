@@ -33,8 +33,8 @@ app.get("/", (request, response) => {
  */
 
 // enabling the use of the body in forms
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 
 app.get('/stamp_of_time', (request, response) => {
     response.sendFile(__dirname + '/views/pages/stamp_of_time.html');
