@@ -4,7 +4,8 @@ require('./config/database.js').connectDatabase();
 const express = require('express');
 const dns = require('dns');
 
-const upload = require('./upload.js'); // may be ./upload.js...
+//const upload = require('./upload.js'); // may be ./upload.js...
+const upload = multer({ dest: 'uploads/' });
 
 const { 
     generateShortUrl,
@@ -141,20 +142,13 @@ app.post('/api/shorturl', async (request,response)=>{
 });
 
 app.post('/api/filestats', upload.single('upfile'), async (request,response)=>{
-
-    try{
-
-         const file = request.file;
+    const file = request.file;
 
          response.json({
             name: file.originalname,
             type: file.mimetype,
             size: file.size
          });
-        
-    }catch(error){
-        response.json({ error: 'invalid file' });
-    } 
 });
 
 // listen for requests :)
