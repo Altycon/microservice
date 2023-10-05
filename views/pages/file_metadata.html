@@ -18,7 +18,7 @@
             </header>
             <p>Select a file to be uploaded.</p>
             <form action="/api/filestats" method="post" enctype="multipart/form-data" class="file-metadata_form">
-                <input type="file" name="upfile" id="FileUploadInput" autocomplete="off">
+                <input type="file" name="upfile" id="FileUploadInput" autocomplete="off" required>
                 <button type="submit">Upload File</button>
             </form>
             <p>* No data is saved.</p>
