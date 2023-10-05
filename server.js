@@ -4,7 +4,7 @@ require('./config/database.js').connectDatabase();
 const express = require('express');
 const dns = require('dns');
 
-const upload = require('./upload'); // may be ./upload.js...
+const upload = require('./upload.js'); // may be ./upload.js...
 
 const { 
     generateShortUrl,
