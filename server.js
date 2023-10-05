@@ -1,5 +1,6 @@
 require('dotenv').config();
 require('./config/database.js').connectDatabase();
+const multer = require('multer');
 
 const express = require('express');
 const dns = require('dns');
