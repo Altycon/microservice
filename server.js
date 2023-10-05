@@ -145,11 +145,11 @@ app.post('/api/filestats', upload.single('upfile'), (request,response)=>{
     // https://www.freecodecamp.org/news/simplify-your-file-upload-process-in-express-js/
     try{
 
-        
+       
          //const { originalname, mimetype, size } = request.file;
-         const filename = request.file.originalname || undefined;
-         const mimetype = request.file.mimetype || undefined;
-         const size = request.file.size || undefined;
+         const filename = "" + request.file.originalname;
+         const mimetype = "" + request.file.mimetype;
+         const size = request.file.size;
          
          response.json({ name: filename, type: mimetype, size: size });
         
